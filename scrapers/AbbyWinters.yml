@@ -4,6 +4,15 @@ sceneByURL:
     url:
       - abbywinters.com/
     scraper: sceneScraper
+performerByURL:
+  - action: scrapeXPath
+    url:
+      - abbywinters.com/nude_girl
+    scraper: performerScraper
+performerByName:
+  action: scrapeXPath
+  queryURL: https://www.abbywinters.com/amateurs/models?filters[keyword]={}
+  scraper: performerSearch
 xPathScrapers:
   sceneScraper:
     scene:
@@ -27,4 +36,22 @@ xPathScrapers:
           selector: //p//a[contains(@href,'/fetish/') or contains(@href,'/browse') or contains(@href,'/amateurs/')]/text()
       Image:
         selector: //div[@class='video-player-container video-responsive']/@data-poster|//img[@class="img-responsive"]/@src
-# Last Updated April 02, 2024
+  performerScraper:
+    performer:
+      Name:
+        selector: //section[@class='section-shoots text-center']/header/h2/text()
+        postProcess:
+          - replace:
+            - regex: Shoots featuring (.*)
+              with: $1
+      Gender:
+        fixed: Female
+      Image:
+        selector: //div[@id='subject-featured-shoot']/div/img/@src
+      URL:
+        selector: //head/link[@rel='alternate'][@hreflang='en']/@href
+  performerSearch:
+    performer:
+      Name: //div[@class='card card-model']/header/h2/text()
+      URL: //div[@class='card card-model']/a/@href
+# Last Updated May 02, 2024
