@@ -27,7 +27,10 @@ xPathScrapers:
       Date:
         selector: //th[text()='Release date']/following-sibling::td/text()
         postProcess:
-          - parseDate: 02 Jan 2006
+          - replace:
+            - regex: (\d{2})(.+)(\w{3})(.+)(\d{4}) #get rid of unicode whitespaces
+              with: $1-$3-$5
+          - parseDate: 02-Jan-2006
       Details:
         selector: //div[@class[contains(.,'description')]]//text()
         concat: " "
